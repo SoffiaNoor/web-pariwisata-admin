@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +23,69 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
 </head>
+<style>
+    .fixed-bottom-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1;
+    }
+
+    .sidenav {
+        z-index: 999 !important;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+    }
+
+    .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .swing-animation {
+        animation: swing 2s infinite ease-in-out;
+        max-width: 100px;
+    }
+
+    @keyframes swing {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        50% {
+            transform: rotate(15deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+</style>
 
 <body class="g-sidenav-show" style="background: linear-gradient(45deg, #034c5a, #01353f);">
+    <div class="loader-container">
+        <img src="assets/images/logo.png" class="swing-animation" alt="Loading..." />
+    </div>
     <?php
     //koneksi ke database
     $hostmysql = "localhost";
@@ -44,7 +108,7 @@
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href="/">
+            <a class="navbar-brand m-0" href="/web-pariwisata-admin/home.php">
                 <img src="./assets/images/logo.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bolder">Raja Ampat</span>
             </a>
@@ -53,7 +117,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link " href="/web-pariwisata-admin/dashboard.php">
+                    <a class="nav-link " href="/web-pariwisata-admin/home.php">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -83,8 +147,6 @@
                     </div>
                 </div>
             </div>
-            <a href="#" target="_blank" class="btn btn-dark btn-sm w-100 mb-3">Registration</a>
-            <a class="btn btn-secondary btn-sm mb-0 w-100" href="#" type="button">Log Out</a>
         </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
@@ -102,18 +164,9 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
-                        </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
-                            </a>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
@@ -135,240 +188,263 @@
                     <div class="card p-3">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3 class="px-3">Data Booking Destinasi Raja Ampat
+                                <h3 class="px-3">Tiket Pengunjung Raja Ampat
                                 </h3>
                                 <hr class="ms-3 mt-0"
                                     style="background-color:#01353f;height:10px;border-radius:40px;width:50%">
                             </div>
                             <div class="col-sm-6">
-                                <a class="btn btn-info" href="insert_booking.php" style="float:right;background-color:#0c859b">
+                                <a class="btn btn-info" href="insert_booking.php"
+                                    style="float:right;background-color:#0c859b">
                                     <span>Tambah Data</span>
                                     <i class="fa fa-plus ms-2"></i>
                                 </a>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-default text-xs font-weight-bolder">
-                                            No.</th>
-                                        <th class="text-uppercase text-default text-xs font-weight-bolder">
-                                            Nama Lengkap</th>
-                                        <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
-                                            Tanggal Booking</th>
-                                        <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
-                                            Status</th>
-                                        <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
-                                            Destinasi</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $batas = 5;
-                                    $halaman = isset($_GET['halaman']) ? (int) $_GET['halaman'] : 1;
-                                    $halaman_awal = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
+                        <div>
+                            <?php
+                            if (isset($_SESSION["success_message"])) {
+                                echo '<div class="alert alert-success text-white font-weight-bolder shadow m-2" style="border-radius:1rem">' . $_SESSION["success_message"] . '</div>';
+                                unset($_SESSION["success_message"]);
+                            }
 
-                                    $previous = $halaman - 1;
-                                    $next = $halaman + 1;
+                            if (isset($_SESSION["error_age"]) || isset($_SESSION["error_jumlahOrang"]) || isset($_SESSION["error_nik"]) || isset($_SESSION["error_notelpon"])) {
+                                echo '<div class="alert alert-danger text-white font-weight-bolder shadow m-2" style="border-radius:1rem">';
+                                if (isset($_SESSION["error_age"])) {
+                                    echo $_SESSION["error_age"] . '<br>';
+                                    unset($_SESSION["error_age"]);
+                                }
 
-                                    $data = mysqli_query($conn, "select * from booking");
-                                    $jumlah_data = mysqli_num_rows($data);
-                                    $total_halaman = ceil($jumlah_data / $batas);
+                                if (isset($_SESSION["error_jumlahOrang"])) {
+                                    echo $_SESSION["error_jumlahOrang"] . '<br>';
+                                    unset($_SESSION["error_jumlahOrang"]);
+                                }
 
-                                    $data_booking = mysqli_query($conn, "select * from booking limit $halaman_awal, $batas");
-                                    $nomor = $halaman_awal + 1;
-                                    while ($d = mysqli_fetch_array($data_booking)) {
-                                        ?>
+                                if (isset($_SESSION["error_nik"])) {
+                                    echo $_SESSION["error_nik"] . '<br>';
+                                    unset($_SESSION["error_nik"]);
+                                }
 
+                                if (isset($_SESSION["error_notelpon"])) {
+                                    echo $_SESSION["error_notelpon"] . '<br>';
+                                    unset($_SESSION["error_notelpon"]);
+                                }
+                                echo '</div>';
+                            }
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
                                         <tr>
-                                            <td class="text-uppercase text-default text-xs font-weight-bolder">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="ms-3 text-xs">
-                                                        <?php echo $d['NIK'] ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2">
-                                                    <div class="my-auto">
-                                                        <h6 class="mb-0 text-xs">
-                                                            <?php echo $d['Nama'] ?>
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
-                                                    <?php echo $d['TanggalBooking'] ?>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <?php if ($d['TanggalBooking'] >= $currentDate) {
-                                                    ?>
-                                                    <span class="badge bg-gradient-info w-50 me-4">
-                                                        <i class="bg-info"></i>
-                                                        <span class="text-xs">
-                                                            <?php
-                                                            echo 'Aktif';
-                                                            ?>
-                                                        </span>
-                                                    </span>
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <span class="badge bg-gradient-warning w-50 me-4">
-                                                        <i class="bg-info"></i>
-                                                        <span class="text-xs">
-                                                            <?php
-                                                            echo 'Tidak Aktif';
-                                                            ?>
-                                                        </span>
-                                                    </span>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <div class="d-flex px-2">
-                                                    <div class="my-auto">
-                                                        <h6 class="mb-0 text-xs">
-                                                            <?php echo $d['Destinasi'] ?>
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <a href="detail_booking.php?NIK=<?php echo $d['NIK']; ?>"
-                                                    class="text-gray-400 hover:text-amber-400  mr-2">
-                                                    <i class="fa fa-eye text-sm" method="POST"></i>
-                                                </a>
-                                                <a href="edit_booking.php?NIK=<?php echo $d['NIK']; ?>"
-                                                    class="text-gray-400 hover:text-amber-400 mx-2">
-                                                    <i class="fas fa-edit text-sm" method="POST"></i>
-                                                </a>
-                                                <a href="#" class="text-gray-400 hover:text-amber-400"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                    data-dataid="<?php echo $d['NIK']; ?>">
-                                                    <i class="fa fa-trash text-sm"></i>
-                                                </a>
-                                            </td>
+                                            <th class="text-uppercase text-default text-xs font-weight-bolder">
+                                                NIK</th>
+                                            <th class="text-uppercase text-default text-xs font-weight-bolder">
+                                                Nama Lengkap</th>
+                                            <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
+                                                Tanggal Booking</th>
+                                            <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
+                                                Status</th>
+                                            <th class="text-uppercase text-default text-xs font-weight-bolder ps-2">
+                                                Destinasi</th>
+                                            <th></th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
                                         <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-end pt-4">
-                                    <?php if ($halaman > 1): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="booking.php?halaman=<?php echo $previous; ?>"
-                                                tabindex="-1">
-                                                <i class="fa fa-angle-left"></i>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                    <?php else: ?>
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="javascript:;" tabindex="-1">
-                                                <i class="fa fa-angle-left"></i>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
+                                        $batas = 8;
+                                        $halaman = isset($_GET['halaman']) ? (int) $_GET['halaman'] : 1;
+                                        $halaman_awal = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
 
-                                    <?php for ($i = 1; $i <= $total_halaman; $i++): ?>
-                                        <li class="page-item <?php echo ($i == $halaman) ? 'active' : ''; ?>" >
-                                            <a class="page-link" href="booking.php?halaman=<?php echo $i; ?>" style="<?php echo ($i == $halaman) ? 'color:white;background-color:#0c859b;border:none' : ''; ?>">
-                                                <?php echo $i; ?>
-                                            </a>
-                                        </li>
-                                    <?php endfor; ?>
+                                        $previous = $halaman - 1;
+                                        $next = $halaman + 1;
 
-                                    <?php if ($halaman < $total_halaman): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="booking.php?halaman=<?php echo $next; ?>">
-                                                <i class="fa fa-angle-right"></i>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    <?php else: ?>
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="javascript:;">
-                                                <i class="fa fa-angle-right"></i>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </nav>
-                            <!-- <nav>
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" <?php if ($halaman > 1) {
-                                            echo "href='?halaman=$Previous'";
-                                        } ?>>Previous</a>
-                                    </li>
-                                    <?php
-                                    for ($x = 1; $x <= $total_halaman; $x++) {
+                                        $data = mysqli_query($conn, "select * from booking_uuid");
+                                        $jumlah_data = mysqli_num_rows($data);
+                                        $total_halaman = ceil($jumlah_data / $batas);
+
+                                        $data_booking = mysqli_query($conn, "select * from booking_uuid limit $halaman_awal, $batas");
+                                        $nomor = $halaman_awal + 1;
+                                        while ($d = mysqli_fetch_array($data_booking)) {
+                                            ?>
+                                            <tr>
+                                                <td class="text-uppercase text-default text-xs font-weight-bolder">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="ms-3 text-xs">
+                                                            <?php echo $d['NIK'] ?>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex px-2">
+                                                        <div class="my-auto">
+                                                            <h6 class="mb-0 text-xs">
+                                                                <?php echo $d['Nama'] ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs font-weight-bold mb-0">
+                                                        <?php
+                                                        $tanggalBooking = $d['TanggalBooking'];
+                                                        // Convert the date to the desired format
+                                                        $formattedDate = date("l, j F Y", strtotime($tanggalBooking));
+                                                        echo $formattedDate;
+                                                        ?>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <?php if ($d['TanggalBooking'] >= $currentDate) {
+                                                        ?>
+                                                        <span class="badge bg-gradient-info w-50 me-4">
+                                                            <i class="bg-info"></i>
+                                                            <span class="text-xs">
+                                                                <?php
+                                                                echo 'Aktif';
+                                                                ?>
+                                                            </span>
+                                                        </span>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <span class="badge bg-gradient-warning w-50 me-4">
+                                                            <i class="bg-info"></i>
+                                                            <span class="text-xs">
+                                                                <?php
+                                                                echo 'Tidak Aktif';
+                                                                ?>
+                                                            </span>
+                                                        </span>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <div class="d-flex px-2">
+                                                        <div class="my-auto">
+                                                            <h6 class="mb-0 text-xs">
+                                                                <?php echo $d['Destinasi'] ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td
+                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <a href="detail_booking.php?NIK=<?php echo $d['NIK']; ?>"
+                                                        class="text-gray-400 hover:text-amber-400  mr-2">
+                                                        <i class="fa fa-eye text-sm" method="POST"></i>
+                                                    </a>
+                                                    <a href="edit_booking.php?NIK=<?php echo $d['NIK']; ?>"
+                                                        class="text-gray-400 hover:text-amber-400 mx-2">
+                                                        <i class="fas fa-edit text-sm" method="POST"></i>
+                                                    </a>
+                                                    <!-- Update the "Trash" icon link to open the modal and pass the 'NIK' value -->
+                                                    <a class="text-gray-400 hover-text-amber-400" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-dataid="<?php echo $d['NIK']; ?>">
+                                                        <i class="fa fa-trash text-sm"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div class="modal fade" id="deleteModal" tabindex="-1"
+                                                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <form action="act_hapus_booking.php" method="POST">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title font-weight-bolder" id="deleteModalLabel">Confirm
+                                                                    Deletion</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to delete this data?
+                                                                <input type="hidden" name="NIK" id="delete_NIK">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                <a href="act_hapus_booking.php?NIK=<?php echo $d['NIK']; ?>"
+                                                                    class="btn btn-danger">Delete</a>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
                                         ?>
-                                        <li class="page-item"><a class="page-link" href="?halaman=<?php echo $x ?>">
-                                                <?php echo $x; ?>
-                                            </a></li>
-                                        <?php
-                                    }
-                                    ?>
-                                    <li class="page-item">
-                                        <a class="page-link" <?php if ($halaman < $total_halaman) {
-                                            echo "href='?halaman=$next'";
-                                        } ?>>Next</a>
-                                    </li>
-                                </ul>
-                            </nav> -->
+                                    </tbody>
+                                </table>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end pt-4">
+                                        <?php if ($halaman > 1): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="booking.php?halaman=<?php echo $previous; ?>"
+                                                    tabindex="-1">
+                                                    <i class="fa fa-angle-left"></i>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="javascript:;" tabindex="-1">
+                                                    <i class="fa fa-angle-left"></i>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+
+                                        <?php for ($i = 1; $i <= $total_halaman; $i++): ?>
+                                            <li class="page-item <?php echo ($i == $halaman) ? 'active' : ''; ?>">
+                                                <a class="page-link" href="booking.php?halaman=<?php echo $i; ?>"
+                                                    style="<?php echo ($i == $halaman) ? 'color:white;background-color:#0c859b;border:none' : ''; ?>">
+                                                    <?php echo $i; ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+
+                                        <?php if ($halaman < $total_halaman): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="booking.php?halaman=<?php echo $next; ?>">
+                                                    <i class="fa fa-angle-right"></i>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="javascript:;">
+                                                    <i class="fa fa-angle-right"></i>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-    </main>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="p-3" id="form_hapus_booking" name="form_hapus_booking" method="post"
-                action="act_hapus_booking.php">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Pengunjung</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Apakah anda yakin menghapus data <span class="font-weight-bolder">
-                            <?php echo $d['NIK']; ?> ?
-                        </span>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tidak</button>
-                        <button class="btn bg-gradient-danger" type="submit" name="button_hapus" id="button_hapus"
-                            value="Hapus">Hapus</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!--   Core JS Files   -->
+    </main>
+
+
     <script src="./assets/js/core/popper.min.js"></script>
     <script src="./assets/js/core/bootstrap.min.js"></script>
     <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="./assets/js/plugins/chartjs.min.js"></script>
-
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var dataId = button.data('dataid');
+            var modal = $(this);
+            modal.find('#delete_NIK').val(dataId);
+        });
+    </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -378,20 +454,20 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
-    <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./assets/js/argon-dashboard.min.js?v=2.0.4"></script>
     <script>
-        // Listen for the modal show event
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            var dataId = button.data('dataid'); // Retrieve the data ID
+            var dataId = button.data('dataid');
             var modal = $(this);
-            // Set the data to the modal message
-            modal.find('.modal-body span').text(dataId); // Display the data ID
-            // Update the delete button's link in the modal to include the data ID
+            modal.find('.modal-body span').text(dataId);
             modal.find('#button_hapus').attr('href', 'act_hapus_booking.php?NIK=' + dataId);
+        });
+    </script>
+    <script>
+        window.addEventListener('load', function () {
+            document.querySelector('.loader-container').style.display = 'none';
         });
     </script>
 </body>

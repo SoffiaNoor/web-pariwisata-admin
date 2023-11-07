@@ -20,8 +20,69 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
 </head>
+<style>
+    .fixed-bottom-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1;
+    }
+
+    .sidenav {
+        z-index: 999 !important;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+    }
+
+    .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .swing-animation {
+        animation: swing 2s infinite ease-in-out;
+        max-width: 100px;
+    }
+
+    @keyframes swing {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        50% {
+            transform: rotate(15deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+</style>
 
 <body class="g-sidenav-show" style="background: linear-gradient(45deg, #034c5a, #01353f);">
+    <div class="loader-container">
+        <img src="assets/images/logo.png" class="swing-animation" alt="Loading..." />
+    </div>
     <?php
     $NIK = $_REQUEST['NIK'];
 
@@ -35,7 +96,7 @@
         die("Koneksi gagal: " . $conn->connect_error);
     }
 
-    $query = "SELECT * FROM booking WHERE NIK = '$NIK'";
+    $query = "SELECT * FROM booking_uuid WHERE NIK = '$NIK'";
     $hasil = $conn->query($query);
 
     if ($hasil) {
@@ -62,7 +123,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link " href="/web-pariwisata-admin/dashboard.php">
+                    <a class="nav-link " href="/web-pariwisata-admin/home.php">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -92,8 +153,6 @@
                     </div>
                 </div>
             </div>
-            <a href="#" target="_blank" class="btn btn-dark btn-sm w-100 mb-3">Registration</a>
-            <a class="btn btn-secondary btn-sm mb-0 w-100" href="#" type="button">Log Out</a>
         </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
@@ -111,18 +170,9 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
-                        </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
-                            </a>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
@@ -155,7 +205,7 @@
                                     <div class="form-group">
                                         <label>NIK</label>
                                         <input type="text" name="NIK" id="NIK" class="form-control"
-                                            value="<?php echo $hasil_array['NIK']; ?>" />
+                                            value="<?php echo $hasil_array['NIK']; ?>" readonly />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -225,7 +275,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" name="Email" id="Email"
+                                        <input type="email" class="form-control" name="Email" id="Email"
                                             value="<?php echo $hasil_array['Email']; ?>">
                                     </div>
                                 </div>
@@ -284,7 +334,6 @@
         </div>
     </div>
 
-    <!--   Core JS Files   -->
     <script src="./assets/js/core/popper.min.js"></script>
     <script src="./assets/js/core/bootstrap.min.js"></script>
     <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -300,10 +349,13 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
-    <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+        window.addEventListener('load', function () {
+            document.querySelector('.loader-container').style.display = 'none';
+        });
+    </script>
 </body>
 
 </html>

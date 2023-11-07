@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +41,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link " href="/web-pariwisata-admin/dashboard.php">
+                    <a class="nav-link " href="/web-pariwisata-admin/home.php">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -68,12 +71,9 @@
                     </div>
                 </div>
             </div>
-            <a href="#" target="_blank" class="btn btn-dark btn-sm w-100 mb-3">Registration</a>
-            <a class="btn btn-secondary btn-sm mb-0 w-100" href="#" type="button">Log Out</a>
         </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
-        <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
             data-scroll="false">
             <div class="container-fluid py-1 px-3">
@@ -87,18 +87,9 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="Type here...">
-                        </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
-                            </a>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
@@ -113,7 +104,6 @@
                 </div>
             </div>
         </nav>
-        <!-- End Navbar -->
         <div class="container-fluid py-2">
             <div class="row">
                 <div class="col-lg-12 mb-lg-0 mb-4 shadow-xl">
@@ -130,14 +120,14 @@
                                     <div class="form-group">
                                         <label>NIK</label>
                                         <input type="text" name="NIK" id="NIK" class="form-control"
-                                            placeholder="NIK Pengunjung" />
+                                            placeholder="NIK Pengunjung" required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>No. Whatsapp</label>
                                         <input type="text" name="NoTelpon" id="NoTelpon" class="form-control"
-                                            placeholder="Nomor Whatsapp..." />
+                                            placeholder="Nomor Whatsapp..." required />
                                     </div>
                                 </div>
                             </div>
@@ -146,23 +136,29 @@
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
                                         <input type="text" name="Nama" id="Nama" class="form-control"
-                                            id="exampleFormControlInput1" placeholder="Nama Pengunjung...">
+                                            id="exampleFormControlInput1" placeholder="Nama Pengunjung..." required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kota Asal</label>
                                         <input type="text" name="KotaAsal" id="KotaAsal" class="form-control"
-                                            placeholder="Kota Asal Pengunjung..." />
+                                            placeholder="Kota Asal Pengunjung..." required />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
+                                    <?php
+                                    if (isset($_SESSION["error_age"])) {
+                                        echo "<p class = 'text-danger'>" . $_SESSION["error_age"] . "</p>";
+                                        unset($_SESSION["error_age"]);
+                                    }
+                                    ?>
                                     <div class="form-group">
                                         <label>Usia</label>
                                         <input type="number" name="Usia" id="Usia" class="form-control"
-                                            id="exampleFormControlInput1" placeholder="Usia..." />
+                                            id="exampleFormControlInput1" placeholder="Usia..." required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -181,14 +177,20 @@
                                     <div class="form-group">
                                         <label>Tanggal Booking</label>
                                         <input type="date" class="form-control" name="TanggalBooking"
-                                            id="TanggalBooking" placeholder="Tanggal Booking..." />
+                                            id="TanggalBooking" placeholder="Tanggal Booking..." required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <?php
+                                    if (isset($_SESSION["error_jumlahOrang"])) {
+                                        echo "<p class='text-danger'>" . $_SESSION["error_jumlahOrang"] . "</p>";
+                                        unset($_SESSION["error_jumlahOrang"]);
+                                    }
+                                    ?>
                                     <div class="form-group">
                                         <label>Jumlah Orang</label>
                                         <input type="number" class="form-control" name="JumlahOrang" id="JumlahOrang"
-                                            placeholder="Jumlah Orang..." />
+                                            placeholder="Jumlah Orang..." required />
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +199,7 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="text" class="form-control" name="Email" id="Email"
-                                            placeholder="Email..." />
+                                            placeholder="Email..." required />
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +226,6 @@
 
     </main>
 
-    <!--   Core JS Files   -->
     <script src="./assets/js/core/popper.min.js"></script>
     <script src="./assets/js/core/bootstrap.min.js"></script>
     <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -240,9 +241,7 @@
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
-    <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
